@@ -392,6 +392,12 @@ func (vcenter *VCenter) Query(interval int, domain string, channel *chan []backe
 			} else if strings.HasSuffix(metricName, ".summation") {
 				value = utils.Sum(serie.Value...)
 			}
+			//fill host tag and empty name tag if hostsystem
+			//it's easier in grafana to filter tag values
+			if entityName == "hostsystem" {
+				vmhost = name
+				name = ""
+			}
                         metricparts := strings.Split(metricName,".")
                         point := backend.Point{
         			VCenter: vcName,
